@@ -1,14 +1,15 @@
 /* Panel surface. Neo-Brutalist tokens (square corners, hard borders, offset shadows). One rule per line.
+   The page is a viewport-locked flex column (overflow hidden); the column scrolls inside.
    Host chrome (window frame, sidebar list, Plugin Manager shell) is not styled here.
    --dsh-frame-top-clearance is a host layout inset, not a color token. */
 :root { --dt-black: #000000; --dt-white: #ffffff; --dt-pink: #ff006e; --dt-acid: #ccff00; --dt-cyan: #00d9ff; --dt-orange: #ff9500; --dt-yellow: #ffff00; --dt-paper: #fffae6; --dt-ink: #222222; --dt-dur: 150ms; --dt-ease: ease-out; --dt-font-display: "Arial Black", Impact, "Archivo Black", "Noto Sans SC", "PingFang SC", sans-serif; --dt-font-body: "Courier New", Courier, "IBM Plex Mono", "Noto Sans Mono CJK SC", ui-monospace, monospace; }
 .dt-page, .dt-embedded, .dt-modal, .dt-toast, .dt-tooltip { font-family: var(--dt-font-body); color: var(--dt-black); }
-.dt-page { box-sizing: border-box; height: 100%; overflow: auto; scrollbar-gutter: stable; scroll-padding: 48px 0 72px; container-type: inline-size; padding: 28px clamp(24px, 4vw, 48px) 0; background: var(--dt-paper); color: var(--dt-black); }
+.dt-page { box-sizing: border-box; display: flex; flex-direction: column; width: 100%; min-width: 0; height: 100%; min-height: 0; max-height: 100%; overflow: hidden; overscroll-behavior: none; container-type: inline-size; padding: 28px clamp(24px, 4vw, 48px) 0; background: var(--dt-paper); color: var(--dt-black); }
 /* Deployment page rendered inside DSH Plugin Manager, which owns scrolling and padding. */
 .dt-embedded { container-type: inline-size; background: var(--dt-paper); color: var(--dt-black); }
 /* Disable sticky positioning inside DSH Plugin Manager, where the host container owns scrolling and bottom padding. */
 .dt-embedded .dt-savebar { position: static; }
-.dt-page > .dt-column { max-width: 960px; margin: 0 auto; padding-bottom: 48px; display: flex; flex-direction: column; gap: 24px; }
+.dt-page > .dt-column { box-sizing: border-box; flex: 1 1 auto; align-self: center; width: 100%; min-width: 0; max-width: 960px; min-height: 0; margin: 0 auto; overflow: auto; overscroll-behavior: contain; scrollbar-gutter: stable; scroll-padding: 48px 0 72px; padding-bottom: 48px; display: flex; flex-direction: column; gap: 24px; }
 .dt-head { position: relative; z-index: 3; display: flex; align-items: flex-start; justify-content: space-between; gap: 8px 16px; flex-wrap: wrap; padding-bottom: 14px; border-bottom: 4px solid var(--dt-black); }
 .dt-search { position: relative; width: 280px; max-width: 100%; }
 .dt-search-results { position: absolute; top: calc(100% + 8px); right: 0; width: min(560px, 90cqw); max-height: 60vh; overflow: auto; padding: 8px; border: 4px solid var(--dt-black); border-radius: 0; background: var(--dt-white); box-shadow: 8px 8px 0 0 var(--dt-black); z-index: 5; display: flex; flex-direction: column; gap: 8px; }

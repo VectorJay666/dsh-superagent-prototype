@@ -36,7 +36,9 @@ Start the service (`scripts/dsh-superagent start`), open the Harness URL printed
 
 The panel reads and writes the management API at `/orchestrator/api/` on `localhost` or `127.0.0.1`, and every request sends `x-orchestrator-request: 1`. Another host, a missing header, or a foreign `Origin` is rejected with 403. [005 Panel](docs/005-panel.md) is the screen guide. [006 Deployment](docs/006-deployment.md) is the API and the host check.
 
-The panel surface is Neo-Brutalist (square corners, hard black borders and offset shadows, high-contrast black and white with pink, yellow, acid and cyan). The Harness window frame, sidebar list and Plugin Manager shell stay on host chrome and are not overridden. Overview, Execution and Settings still call the existing routes, including `POST executor/pause`, `POST tickets/:id/retry`, `POST tickets/:id/stop` and `PUT settings/:block`.
+The panel surface is Neo-Brutalist (square corners, hard black borders and offset shadows, high-contrast black and white with pink, yellow, acid and cyan). The Harness window frame, sidebar list and Plugin Manager shell stay on host chrome and are not overridden. The page is viewport-locked: `.dt-page` hides overflow and the column scrolls inside it. Overview, Execution and Settings call the existing routes, including `GET state`, `POST executor/pause`, `POST tickets/:id/retry`, `POST tickets/:id/stop` and `PUT settings/:block`, each with `x-orchestrator-request: 1`. Those routes answer during the first account probe, so Settings can fix setup before startup finishes.
+
+To smoke it on profile `superagent`: `pnpm check`, then `scripts/dsh-superagent --profile superagent status`, then open `http://127.0.0.1:3082/` and choose **Superagent**. [006 Deployment](docs/006-deployment.md) has the checklist, including a direct `dsh --profile superagent` start where `tmux` is unavailable.
 
 ## Development
 

@@ -42,6 +42,18 @@ it('keeps the neo-brutalist surface: hard shadows, square corners, snap timing',
   }
 })
 
+it('locks the page to the viewport and scrolls the column inside it', () => {
+  const page = /\.dt-page \{([^}]*)\}/.exec(css)?.[1]
+  const column = /\.dt-page > \.dt-column \{([^}]*)\}/.exec(css)?.[1]
+  expect(page).toMatch(/display:\s*flex/)
+  expect(page).toMatch(/flex-direction:\s*column/)
+  expect(page).toMatch(/overflow:\s*hidden/)
+  expect(page).not.toMatch(/overflow:\s*auto/)
+  expect(column).toMatch(/overflow:\s*auto/)
+  expect(column).toMatch(/min-height:\s*0/)
+  expect(column).toMatch(/flex:\s*1 1 auto/)
+})
+
 it('writes one rule per line, each selector once within its block', () => {
   const blocks: string[][] = [[]]
   for (const line of css.replace(/\/\*[\s\S]*?\*\//g, '').split('\n').map(text => text.trim()).filter(Boolean)) {
