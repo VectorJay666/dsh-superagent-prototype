@@ -30,6 +30,14 @@ Read the numbered documents in order; each builds only on the ones before it.
 - [007 Architecture](docs/007-architecture.md)
 - [008 Cookbook](docs/008-cookbook.md): adding a Source
 
+## Panel
+
+Start the service (`scripts/dsh-superagent start`), open the Harness URL printed in the log, and choose **Superagent** in the web sidebar. That entry is the bundle's sidebar panel (`dsh-superagent` in `src/client/index.tsx`).
+
+The panel reads and writes the management API at `/orchestrator/api/` on `localhost` or `127.0.0.1`, and every request sends `x-orchestrator-request: 1`. Another host, a missing header, or a foreign `Origin` is rejected with 403. [005 Panel](docs/005-panel.md) is the screen guide. [006 Deployment](docs/006-deployment.md) is the API and the host check.
+
+The panel surface is Neo-Brutalist (square corners, hard black borders and offset shadows, high-contrast black and white with pink, yellow, acid and cyan). The Harness window frame, sidebar list and Plugin Manager shell stay on host chrome and are not overridden. Overview, Execution and Settings still call the existing routes, including `POST executor/pause`, `POST tickets/:id/retry`, `POST tickets/:id/stop` and `PUT settings/:block`.
+
 ## Development
 
 `pnpm check` runs the typecheck, the tests and the build.
