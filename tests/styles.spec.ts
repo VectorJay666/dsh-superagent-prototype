@@ -32,11 +32,12 @@ it('scrolls the page body and keeps the top tabs outside that scroller', () => {
   expect(decl(rule('.dt-main'), 'min-height')).toBe('0')
   expect(decl(rule('.dt-head'), 'flex')).toBe('none')
   expect(decl(rule('.dt-page .dt-tabs'), 'flex')).toBe('none')
-  expect(decl(rule('.dt-settings-nav'), 'position')).toBe('sticky')
-  // The narrow rule must not cancel stickiness; a solid fill keeps the wrapped group options from being painted over.
+  // The group list is not sticky: a sticky bar inside the form covered 评估 / 提示词 and sat on 服务商 / 模型.
+  expect(decl(rule('.dt-settings-nav'), 'position')).toBe('static')
+  expect(decl(rule('.dt-settings'), 'overflow')).toBe('hidden')
+  expect(decl(rule('.dt-settings-body'), 'overflow')).toBe('auto')
   const navRules = body.split('\n').map(text => text.trim()).filter(text => text.startsWith('.dt-settings-nav {'))
-  expect(navRules.map(line => decl(line, 'position'))).toEqual(['sticky', undefined])
-  expect(navRules[1]).toContain('background:')
+  expect(navRules.every(line => !line.includes('position: sticky'))).toBe(true)
   const shell = readFileSync(join(dir, 'app.tsx'), 'utf8')
   const page = shell.slice(shell.indexOf('className="dt-page"'))
   const tabsAt = page.indexOf('className="dt-tabs"')
